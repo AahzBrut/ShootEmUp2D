@@ -3,6 +3,7 @@
 #include <raylib.h>
 
 #include "defs.h"
+#include "Components/Components.h"
 #include "Components/Position.h"
 #include "Components/Velocity.h"
 #include "Systems/MovementSystem.h"
@@ -11,6 +12,8 @@
 
 void Application::Initialize() const {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Shoot 'em up");
+
+    RegisterComponents(ecsWorld);
 
     MovementSystem(ecsWorld);
     RenderSystem(ecsWorld);
