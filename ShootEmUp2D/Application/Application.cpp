@@ -9,7 +9,7 @@
 #include "Systems/Systems.h"
 
 
-void Application::Initialize() const {
+void Application::Initialize() {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Shoot 'em up");
 
     LoadAssets();
@@ -21,7 +21,7 @@ void Application::Initialize() const {
             .insert([this](Position &p, Velocity &v, Sprite &s) {
                 p = {10, 20};
                 v = {60, 60};
-                s = { assetManager.get()->GetTexture("player")};
+                s = { assetManager.GetTexture("player")};
             });
 
     // ReSharper disable once CppExpressionWithoutSideEffects
@@ -29,12 +29,12 @@ void Application::Initialize() const {
             .insert([this](Position &p, Velocity &v, Sprite &s) {
                 p = {1000, 20};
                 v = {-60, 60};
-                s = { assetManager.get()->GetTexture("player")};
+                s = { assetManager.GetTexture("player")};
             });
 }
 
-void Application::LoadAssets() const {
-    assetManager.get()->LoadTexture("player", "./assets/gfx/player.png");
+void Application::LoadAssets() {
+    assetManager.LoadTexture("player", "./assets/gfx/player.png");
 }
 
 void Application::Run() {
