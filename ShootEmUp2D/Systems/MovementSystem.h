@@ -6,6 +6,7 @@
 
 inline void MovementSystem(const flecs::world &ecsWorld) {
     ecsWorld.system<Position, const Velocity>()
+            .write<Position>()
             .each([](const flecs::iter &it, size_t, Position &p, const Velocity &v) {
                 const auto deltaTime = it.delta_time();
                 p.x += v.x * deltaTime;

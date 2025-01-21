@@ -12,26 +12,35 @@
 void Application::Initialize() const {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Shoot 'em up");
 
+    LoadAssets();
     RegisterComponents(ecsWorld);
     RegisterSystems(ecsWorld);
 
     // ReSharper disable once CppExpressionWithoutSideEffects
     ecsWorld.entity()
-            .insert([](Position &p, Velocity &v) {
+            .insert([this](Position &p, Velocity &v, Sprite &s) {
                 p = {10, 20};
                 v = {60, 60};
+                s = { assetManager.get()->GetTexture("player")};
             });
 
     // ReSharper disable once CppExpressionWithoutSideEffects
     ecsWorld.entity()
-            .insert([](Position &p, Velocity &v) {
+            .insert([this](Position &p, Velocity &v, Sprite &s) {
                 p = {1000, 20};
                 v = {-60, 60};
+                s = { assetManager.get()->GetTexture("player")};
             });
+}
+
+void Application::LoadAssets() const {
+    assetManager.get()->LoadTexture("player", "./assets/gfx/player.png");
 }
 
 void Application::Run() {
     Initialize();
+    LoadAssets();
+
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(DARKBLUE);
