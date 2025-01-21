@@ -14,7 +14,7 @@ void Application::Initialize() {
 
     LoadAssets();
     RegisterComponents(ecsWorld);
-    RegisterSystems(ecsWorld);
+    RegisterSystems(ecsWorld, assetManager);
 
     // ReSharper disable once CppExpressionWithoutSideEffects
     ecsWorld.entity()
@@ -36,6 +36,7 @@ void Application::Initialize() {
 
 void Application::LoadAssets() {
     assetManager.LoadTexture("player", "./assets/gfx/player.png");
+    assetManager.LoadTexture("bullet", "./assets/gfx/playerBullet.png");
 }
 
 void Application::Run() {
