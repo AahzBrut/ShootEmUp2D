@@ -18,10 +18,11 @@ void Application::Initialize() {
 
     // ReSharper disable once CppExpressionWithoutSideEffects
     ecsWorld.entity()
-            .insert([this](Position &p, Velocity &v, Sprite &s) {
+            .insert([this](Position &p, Velocity &v, Sprite &s, Player &pl) {
                 p = {10, 20};
                 v = {60, 60};
-                s = { assetManager.GetTexture("player")};
+                s = {assetManager.GetTexture("player")};
+                pl = { 100 };
             });
 
     // ReSharper disable once CppExpressionWithoutSideEffects
@@ -29,7 +30,7 @@ void Application::Initialize() {
             .insert([this](Position &p, Velocity &v, Sprite &s) {
                 p = {1000, 20};
                 v = {-60, 60};
-                s = { assetManager.GetTexture("player")};
+                s = {assetManager.GetTexture("player")};
             });
 }
 
@@ -39,7 +40,6 @@ void Application::LoadAssets() {
 
 void Application::Run() {
     Initialize();
-    LoadAssets();
 
     while (!WindowShouldClose()) {
         BeginDrawing();

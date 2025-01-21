@@ -41,6 +41,8 @@ add_executable(ShootEmUp2D
         ShootEmUp2D/TypeDefs.h
         ShootEmUp2D/Logger.h
         ShootEmUp2D/Components/Sprite.h
+        ShootEmUp2D/Components/Player.h
+        ShootEmUp2D/Systems/PlayerControlSystem.h
 )
 
 target_link_libraries(ShootEmUp2D PRIVATE raylib flecs_static)
