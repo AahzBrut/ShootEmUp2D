@@ -6,17 +6,14 @@
 #include "Components/Components.h"
 #include "Components/Position.h"
 #include "Components/Velocity.h"
-#include "Systems/MovementSystem.h"
-#include "Systems/RenderSystem.h"
+#include "Systems/Systems.h"
 
 
 void Application::Initialize() const {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Shoot 'em up");
 
     RegisterComponents(ecsWorld);
-
-    MovementSystem(ecsWorld);
-    RenderSystem(ecsWorld);
+    RegisterSystems(ecsWorld);
 
     // ReSharper disable once CppExpressionWithoutSideEffects
     ecsWorld.entity()
@@ -33,7 +30,8 @@ void Application::Initialize() const {
             });
 }
 
-void Application::Run() const {
+void Application::Run() {
+    Initialize();
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(DARKBLUE);
@@ -46,6 +44,7 @@ void Application::Run() const {
 
         EndDrawing();
     }
+    DeInitialize();
 }
 
 // ReSharper disable once CppMemberFunctionMayBeStatic

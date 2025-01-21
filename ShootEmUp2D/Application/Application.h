@@ -5,7 +5,9 @@ class Application {
     flecs::world ecsWorld;
 public:
 
+    void Run();
+
+private:
     void Initialize() const;
-    void Run() const;
     void DeInitialize();
 };
