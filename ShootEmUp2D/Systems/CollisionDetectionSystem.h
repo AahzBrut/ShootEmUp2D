@@ -16,9 +16,9 @@ inline void CollisionDetectionSystem(const flecs::world &ecsWorld) {
     ecsWorld.system<const Collider>()
             .each([query](const flecs::entity entity1, const Collider &collider1) {
                 query.each([entity1, collider1](const flecs::entity entity2, const Collider &collider2) {
-                    if (entity1 == entity2 || entity1 > entity2) return;
-                    if (isIntersects(collider1, collider2) && CollisionLayersSettings::IsLayersCollides(
-                            collider1.layer, collider2.layer)) {
+                    if (entity1 >= entity2) return;
+                    if (isIntersects(collider1, collider2) &&
+                        CollisionLayersSettings::IsLayersCollides(collider1.layer, collider2.layer)) {
                         entity1.destruct();
                         entity2.destruct();
                     }
