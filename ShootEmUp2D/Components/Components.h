@@ -1,6 +1,7 @@
 #pragma once
 #include <flecs.h>
 
+#include "AssetManager/AssetManager.h"
 #include "Components/Bullet.h"
 #include "Components/Collider.h"
 #include "Components/Player.h"
