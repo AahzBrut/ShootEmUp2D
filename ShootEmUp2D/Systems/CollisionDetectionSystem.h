@@ -11,17 +11,19 @@ inline bool isIntersects(const Collider &collider1, const Collider &collider2) {
 }
 
 inline void CollisionDetectionSystem(const flecs::world &ecsWorld) {
+    const auto query = ecsWorld.query<const Collider>();
+
     ecsWorld.system<const Collider>()
-            .each([&](const flecs::entity entity1, const Collider &collider1) {
-                ecsWorld
-                        .query<const Collider>()
-                        .each([&](const flecs::entity entity2, const Collider &collider2) {
-                            if (entity1 != entity2) {
-                                if (isIntersects(collider1, collider2) && CollisionLayersSettings::IsLayersCollides(collider1.layer, collider2.layer)) {
-                                    entity1.destruct();
-                                    entity2.destruct();
-                                }
-                            }
-                        });
+            .each([query](const flecs::iter &it, const size_t index, const Collider &collider1) {
+                const auto entity1 = it.entity(index);
+
+                query.each([entity1, collider1](const flecs::entity entity2, const Collider &collider2) {
+                    if (entity1 == entity2 || entity1 > entity2) return;
+                    if (isIntersects(collider1, collider2) && CollisionLayersSettings::IsLayersCollides(
+                            collider1.layer, collider2.layer)) {
+                        entity1.destruct();
+                        entity2.destruct();
+                    }
+                });
             });
 }
