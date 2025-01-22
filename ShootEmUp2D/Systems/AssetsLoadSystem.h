@@ -1,6 +1,8 @@
 #pragma once
 #include <flecs.h>
 
+#include "Components/Collider.h"
+
 inline void AssetsLoadSystem(const flecs::world &ecsWorld) {
     ecsWorld.system()
             .kind(flecs::OnStart)
@@ -10,13 +12,15 @@ inline void AssetsLoadSystem(const flecs::world &ecsWorld) {
                 assetManager->LoadTexture("bullet", "./assets/gfx/playerBullet.png");
                 assetManager->LoadTexture("enemy", "./assets/gfx/enemy.png");
 
+                const auto playerSprite = assetManager->GetTexture("player");
                 // ReSharper disable once CppExpressionWithoutSideEffects
                 ecsWorld.entity()
-                        .insert([&](Position &p, Velocity &v, Sprite &s, Player &pl) {
+                        .insert([&](Position &p, Velocity &v, Sprite &s, Player &pl, Collider &collider) {
                             p = {100, 100};
                             v = {60, 60};
-                            s = {assetManager->GetTexture("player")};
+                            s = {playerSprite};
                             pl = {100, 5, 0, 250};
+                            collider = {100, 100, static_cast<float>(playerSprite->width), static_cast<float>(playerSprite->height), CollisionLayer::Player};
                         });
                 LOG("Assets load complete.");
             });

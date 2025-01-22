@@ -34,10 +34,11 @@ inline void PlayerControlSystem(const flecs::world &ecsWorld) {
 
                         // ReSharper disable once CppExpressionWithoutSideEffects
                         ecsWorld.entity()
-                                .insert([&](Position &bulletPos, Velocity &bulletVelocity, Sprite &s) {
+                                .insert([&](Position &bulletPos, Velocity &bulletVelocity, Sprite &sprite, Collider &collider) {
                                     bulletPos = {bulletPosX, bulletPosY};
                                     bulletVelocity = {p.bulletSpeed, 0};
-                                    s = {bulletTexture};
+                                    sprite = {bulletTexture};
+                                    collider = {bulletPosX, bulletPosY, static_cast<float>(bulletTexture->width), static_cast<float>(bulletTexture->height), CollisionLayer::PlayerBullet};
                                 })
                                 .add<Bullet>();
                     }

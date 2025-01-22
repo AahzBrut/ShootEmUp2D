@@ -2,6 +2,7 @@
 #include <flecs.h>
 
 #include "AssetManager/AssetManager.h"
+#include "Components/Collider.h"
 #include "Utils/Random.h"
 
 
@@ -12,10 +13,11 @@ inline void SpawnEnemy(const flecs::iter &it) {
 
     it.world()
             .entity()
-            .insert([&](Position &p, Velocity &v, Sprite &s) {
+            .insert([&](Position &p, Velocity &v, Sprite &s, Collider &collider) {
                 p = {WINDOW_WIDTH, enemyYPos};
                 v = {-60, 0};
                 s = {assetManager->GetTexture("enemy")};
+                collider = {p.x, p.y, static_cast<float>(enemyTexture->width), static_cast<float>(enemyTexture->height), CollisionLayer::Enemy};
             });
 }
 

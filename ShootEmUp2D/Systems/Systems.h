@@ -2,6 +2,7 @@
 #include <flecs.h>
 
 #include "AssetsLoadSystem.h"
+#include "CollisionDetectionSystem.h"
 #include "Systems/MovementSystem.h"
 #include "Systems/OffScreenDestructionSystem.h"
 #include "Systems/PlayerControlSystem.h"
@@ -15,4 +16,5 @@ inline void RegisterSystems(const flecs::world &ecsWorld) {
     OffScreenDestructionSystem(ecsWorld);
     SpawnEnemySystem(ecsWorld);
     AssetsLoadSystem(ecsWorld);
+    CollisionDetectionSystem(ecsWorld);
 }

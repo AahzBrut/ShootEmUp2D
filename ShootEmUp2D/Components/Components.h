@@ -1,7 +1,8 @@
 #pragma once
 #include <flecs.h>
 
-#include "Bullet.h"
+#include "Components/Bullet.h"
+#include "Components/Collider.h"
 #include "Components/Player.h"
 #include "Components/Position.h"
 #include "Components/Sprite.h"
@@ -15,4 +16,5 @@ inline void RegisterComponents(const flecs::world &ecsWorld) {
     ecsWorld.component<Player>();
     ecsWorld.component<Bullet>();
     ecsWorld.component<AssetManager>();
+    ecsWorld.component<Collider>();
 }

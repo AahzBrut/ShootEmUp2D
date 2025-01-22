@@ -48,6 +48,10 @@ add_executable(ShootEmUp2D
         ShootEmUp2D/Systems/SpawnEnemySystem.h
         ShootEmUp2D/Utils/Random.h
         ShootEmUp2D/Systems/AssetsLoadSystem.h
+        ShootEmUp2D/Components/Collider.h
+        ShootEmUp2D/Physics/CollisionLayersSettings.cpp
+        ShootEmUp2D/Physics/CollisionLayersSettings.h
+        ShootEmUp2D/Systems/CollisionDetectionSystem.h
 )
 
 target_link_libraries(ShootEmUp2D PRIVATE raylib flecs_static)
