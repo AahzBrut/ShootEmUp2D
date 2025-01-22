@@ -4,33 +4,16 @@
 
 #include "defs.h"
 #include "Components/Components.h"
-#include "Components/Position.h"
-#include "Components/Velocity.h"
 #include "Systems/Systems.h"
 
 
-void Application::Initialize() {
+void Application::Initialize() const {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Shoot 'em up");
 
-    LoadAssets();
     RegisterComponents(ecsWorld);
-    RegisterSystems(ecsWorld, assetManager);
+    RegisterSystems(ecsWorld);
 
-    ecsWorld.set(assetManager);
-    // ReSharper disable once CppExpressionWithoutSideEffects
-    ecsWorld.entity()
-            .insert([this](Position &p, Velocity &v, Sprite &s, Player &pl) {
-                p = {100, 100};
-                v = {60, 60};
-                s = {assetManager.GetTexture("player")};
-                pl = { 100, 5, 0, 250 };
-            });
-}
-
-void Application::LoadAssets() {
-    assetManager.LoadTexture("player", "./assets/gfx/player.png");
-    assetManager.LoadTexture("bullet", "./assets/gfx/playerBullet.png");
-    assetManager.LoadTexture("enemy", "./assets/gfx/enemy.png");
+    ecsWorld.set(AssetManager{});
 }
 
 void Application::Run() {

@@ -4,13 +4,11 @@
 
 class Application {
     flecs::world ecsWorld;
-    AssetManager assetManager;
 
 public:
     void Run();
 
 private:
-    void Initialize();
-    void LoadAssets();
+    void Initialize() const;
     void DeInitialize();
 };

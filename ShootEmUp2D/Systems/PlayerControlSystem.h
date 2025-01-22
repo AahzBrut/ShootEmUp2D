@@ -6,10 +6,11 @@
 #include "Components/Velocity.h"
 
 
-inline void PlayerControlSystem(const flecs::world &ecsWorld, AssetManager &assetManager) {
+inline void PlayerControlSystem(const flecs::world &ecsWorld) {
     ecsWorld.system<Player, const Position, const Sprite, Velocity>()
-            .each([&ecsWorld, &assetManager](const flecs::iter &it, size_t, Player &p, const Position &pos,
-                                             const Sprite &spr, Velocity &v) {
+            .each([&](const flecs::iter &it, size_t, Player &p, const Position &pos, const Sprite &spr, Velocity &v) {
+                const auto assetManager = ecsWorld.get_mut<AssetManager>();
+
                 v.x = v.y = 0.0f;
                 if (p.fireDelay > 0.f) {
                     const auto deltaTime = it.delta_time();
@@ -25,9 +26,11 @@ inline void PlayerControlSystem(const flecs::world &ecsWorld, AssetManager &asse
                 if (IsKeyDown(KEY_SPACE)) {
                     if (p.fireDelay <= 0.0f) {
                         p.fireDelay = 1.0f / p.fireRate;
-                        const auto bulletTexture = assetManager.GetTexture("bullet");
-                        const auto bulletPosX = pos.x + static_cast<float>(spr.sprite->width) / 2 - static_cast<float>(bulletTexture->width) / 2;
-                        const auto bulletPosY = pos.y + static_cast<float>(spr.sprite->height) / 2 - static_cast<float>(bulletTexture->height) / 2;
+                        const auto bulletTexture = assetManager->GetTexture("bullet");
+                        const auto bulletPosX = pos.x + static_cast<float>(spr.sprite->width) / 2 - static_cast<float>(
+                                                    bulletTexture->width) / 2;
+                        const auto bulletPosY = pos.y + static_cast<float>(spr.sprite->height) / 2 - static_cast<float>(
+                                                    bulletTexture->height) / 2;
 
                         // ReSharper disable once CppExpressionWithoutSideEffects
                         ecsWorld.entity()
