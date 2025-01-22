@@ -26,8 +26,8 @@ inline void PlayerControlSystem(const flecs::world &ecsWorld, AssetManager &asse
                     if (p.fireDelay <= 0.0f) {
                         p.fireDelay = 1.0f / p.fireRate;
                         const auto bulletTexture = assetManager.GetTexture("bullet");
-                        const auto bulletPosX = pos.x + spr.sprite->width / 2 - bulletTexture->width / 2;
-                        const auto bulletPosY = pos.y + spr.sprite->height / 2 - bulletTexture->height / 2;
+                        const auto bulletPosX = pos.x + static_cast<float>(spr.sprite->width) / 2 - static_cast<float>(bulletTexture->width) / 2;
+                        const auto bulletPosY = pos.y + static_cast<float>(spr.sprite->height) / 2 - static_cast<float>(bulletTexture->height) / 2;
 
                         // ReSharper disable once CppExpressionWithoutSideEffects
                         ecsWorld.entity()

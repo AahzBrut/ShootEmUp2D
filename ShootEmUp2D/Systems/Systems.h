@@ -1,14 +1,16 @@
 #pragma once
 #include <flecs.h>
 
-#include "BulletDestructionSystem.h"
-#include "MovementSystem.h"
-#include "PlayerControlSystem.h"
-#include "RenderSystem.h"
+#include "Systems/MovementSystem.h"
+#include "Systems/OffScreenDestructionSystem.h"
+#include "Systems/PlayerControlSystem.h"
+#include "Systems/RenderSystem.h"
+#include "Systems/SpawnEnemySystem.h"
 
 inline void RegisterSystems(const flecs::world &ecsWorld, AssetManager& assetManager) {
     MovementSystem(ecsWorld);
     RenderSystem(ecsWorld);
     PlayerControlSystem(ecsWorld, assetManager);
-    BulletDestructionSystem(ecsWorld);
+    OffScreenDestructionSystem(ecsWorld);
+    SpawnEnemySystem(ecsWorld);
 }

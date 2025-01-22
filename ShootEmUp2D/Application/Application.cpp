@@ -16,6 +16,7 @@ void Application::Initialize() {
     RegisterComponents(ecsWorld);
     RegisterSystems(ecsWorld, assetManager);
 
+    ecsWorld.set(assetManager);
     // ReSharper disable once CppExpressionWithoutSideEffects
     ecsWorld.entity()
             .insert([this](Position &p, Velocity &v, Sprite &s, Player &pl) {
@@ -24,19 +25,12 @@ void Application::Initialize() {
                 s = {assetManager.GetTexture("player")};
                 pl = { 100, 5, 0, 250 };
             });
-
-    // ReSharper disable once CppExpressionWithoutSideEffects
-    ecsWorld.entity()
-            .insert([this](Position &p, Velocity &v, Sprite &s) {
-                p = {1000, 20};
-                v = {-60, 60};
-                s = {assetManager.GetTexture("player")};
-            });
 }
 
 void Application::LoadAssets() {
     assetManager.LoadTexture("player", "./assets/gfx/player.png");
     assetManager.LoadTexture("bullet", "./assets/gfx/playerBullet.png");
+    assetManager.LoadTexture("enemy", "./assets/gfx/enemy.png");
 }
 
 void Application::Run() {
