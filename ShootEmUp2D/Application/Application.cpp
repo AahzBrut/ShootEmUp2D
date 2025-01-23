@@ -21,7 +21,7 @@ void Application::Run() {
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-        ClearBackground(DARKBLUE);
+        ClearBackground(BLACK);
 
         ecsWorld.progress(GetFrameTime());
 

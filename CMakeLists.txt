@@ -56,6 +56,8 @@ add_executable(ShootEmUp2D
         ShootEmUp2D/Systems/EnemyFiringSystem.h
         ShootEmUp2D/Systems/RenderBackgroundSystem.h
         ShootEmUp2D/Components/Background.h
+        ShootEmUp2D/Components/Star.h
+        ShootEmUp2D/Systems/StarRenderSystem.h
 )
 
 target_link_libraries(ShootEmUp2D PRIVATE raylib flecs_static)
