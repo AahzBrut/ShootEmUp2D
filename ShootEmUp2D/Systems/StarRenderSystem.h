@@ -24,9 +24,7 @@ inline void StartRenderSystem(const flecs::world &ecsWorld) {
                                                        static_cast<int>(sprite->width * size),
                                                        static_cast<int>(sprite->height * size));
 
-                        if (sprite) {
-                            DrawTexturePro(*sprite, srcRect, dstRect, {0, 0}, 0, color);
-                        }
+                        DrawTexturePro(*sprite, srcRect, dstRect, {0, 0}, 0, color);
                     }
                 }
                 EndBlendMode();
