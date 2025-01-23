@@ -1,6 +1,7 @@
 #pragma once
 #include <flecs.h>
 
+#include "AutoCanon.h"
 #include "AssetManager/AssetManager.h"
 #include "Components/Bullet.h"
 #include "Components/Collider.h"
@@ -18,4 +19,5 @@ inline void RegisterComponents(const flecs::world &ecsWorld) {
     ecsWorld.component<Bullet>();
     ecsWorld.component<AssetManager>();
     ecsWorld.component<Collider>();
+    ecsWorld.component<AutoCanon>();
 }

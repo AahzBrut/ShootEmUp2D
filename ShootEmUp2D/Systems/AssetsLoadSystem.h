@@ -11,6 +11,7 @@ inline void AssetsLoadSystem(const flecs::world &ecsWorld) {
                 assetManager->LoadTexture("player", "./assets/gfx/player.png");
                 assetManager->LoadTexture("bullet", "./assets/gfx/playerBullet.png");
                 assetManager->LoadTexture("enemy", "./assets/gfx/enemy.png");
+                assetManager->LoadTexture("enemy-bullet", "./assets/gfx/alienBullet.png");
 
                 const auto playerSprite = assetManager->GetTexture("player");
                 // ReSharper disable once CppExpressionWithoutSideEffects

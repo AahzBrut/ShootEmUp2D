@@ -36,6 +36,7 @@ class CollisionLayersSettings {
         SetLayersCollides(CollisionLayer::Player, CollisionLayer::EnemyBullet);
         SetLayersCollides(CollisionLayer::Enemy, CollisionLayer::PlayerBullet);
         SetLayersCollides(CollisionLayer::Player, CollisionLayer::Enemy);
+        SetLayersCollides(CollisionLayer::PlayerBullet, CollisionLayer::EnemyBullet);
     }
 
 public:
