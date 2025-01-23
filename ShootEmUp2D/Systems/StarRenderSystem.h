@@ -19,10 +19,7 @@ inline void StartRenderSystem(const flecs::world &ecsWorld) {
                         posX = posX < -50.0f ? WINDOW_WIDTH : posX;
                         const auto sprite = texture;
 
-                        const auto srcRect = Rectangle{
-                            0, 0,
-                            static_cast<float>(sprite->width), static_cast<float>(sprite->height)
-                        };
+                        const auto srcRect = Rectangle{0, 0, tofloat(sprite->width), tofloat(sprite->height)};
                         const auto dstRect = Rectangle{
                             posX, posY, sprite->width * size, sprite->height * size
                         };

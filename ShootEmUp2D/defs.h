@@ -6,3 +6,5 @@
 
 #define ENEMY_SPAWN_TIMEOUT 1.5f
 #define MAX_STARS 500
+
+#define tofloat(var) static_cast<float>(var)
