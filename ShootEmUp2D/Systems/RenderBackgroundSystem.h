@@ -27,6 +27,6 @@ inline void RenderBackgroundSystem(const flecs::world &ecsWorld) {
                 WINDOW_HEIGHT);
 
 
-            if (sprite) DrawTexturePro(*sprite, srcRect, dstRect, {0,0}, 0, WHITE);
+            if (sprite) DrawTexturePro(*sprite, srcRect, dstRect, {0,0}, 0, {255,255,255, 92});
         });
 }
