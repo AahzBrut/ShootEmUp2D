@@ -30,6 +30,7 @@ inline void StartRenderSystem(const flecs::world &ecsWorld) {
                         DrawTexturePro(*sprite, srcRect, dstRect, {0, 0}, 0, color);
                     }
                 }
+
                 EndBlendMode();
             });
 }
