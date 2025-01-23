@@ -19,10 +19,13 @@ inline void StartRenderSystem(const flecs::world &ecsWorld) {
                         posX = posX < -50.0f ? WINDOW_WIDTH : posX;
                         const auto sprite = texture;
 
-                        const auto srcRect = Rectangle(0, 0, sprite->width, sprite->height);
-                        const auto dstRect = Rectangle(posX, posY,
-                                                       static_cast<int>(sprite->width * size),
-                                                       static_cast<int>(sprite->height * size));
+                        const auto srcRect = Rectangle{
+                            0, 0,
+                            static_cast<float>(sprite->width), static_cast<float>(sprite->height)
+                        };
+                        const auto dstRect = Rectangle{
+                            posX, posY, sprite->width * size, sprite->height * size
+                        };
 
                         DrawTexturePro(*sprite, srcRect, dstRect, {0, 0}, 0, color);
                     }
