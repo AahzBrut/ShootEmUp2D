@@ -2,6 +2,7 @@
 #include <flecs.h>
 
 #include "RenderBackgroundSystem.h"
+#include "RenderDebrisSystem.h"
 #include "RenderExplosionSystem.h"
 #include "RenderStarsSystem.h"
 #include "SpawnExplosionSystem.h"
@@ -20,11 +21,12 @@ inline void RegisterSystems(const flecs::world &ecsWorld) {
     RenderBackgroundSystem(ecsWorld);
     RenderStarsSystem(ecsWorld);
     RenderSystem(ecsWorld);
+    RenderDebrisSystem(ecsWorld);
+    RenderExplosionSystem(ecsWorld);
     PlayerControlSystem(ecsWorld);
     OffScreenDestructionSystem(ecsWorld);
     SpawnEnemySystem(ecsWorld);
     CollisionDetectionSystem(ecsWorld);
     EnemyFiringSystem(ecsWorld);
     SpawnExplosionSystem(ecsWorld);
-    RenderExplosionSystem(ecsWorld);
 }

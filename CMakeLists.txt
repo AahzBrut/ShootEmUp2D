@@ -62,6 +62,8 @@ add_executable(ShootEmUp2D
         ShootEmUp2D/Components/Explode.h
         ShootEmUp2D/Systems/SpawnExplosionSystem.h
         ShootEmUp2D/Systems/RenderExplosionSystem.h
+        ShootEmUp2D/Components/Debris.h
+        ShootEmUp2D/Systems/RenderDebrisSystem.h
 )
 
 target_link_libraries(ShootEmUp2D PRIVATE raylib flecs_static)

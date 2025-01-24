@@ -3,6 +3,7 @@
 
 #include "AutoCanon.h"
 #include "Background.h"
+#include "Debris.h"
 #include "Explode.h"
 #include "ExplosionParticle.h"
 #include "Star.h"
@@ -28,4 +29,5 @@ inline void RegisterComponents(const flecs::world &ecsWorld) {
     ecsWorld.component<Star>();
     ecsWorld.component<ExplosionParticle>();
     ecsWorld.component<Explode>();
+    ecsWorld.component<Debris>();
 }

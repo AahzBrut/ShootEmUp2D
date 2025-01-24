@@ -26,7 +26,9 @@ inline void RenderExplosionSystem(const flecs::world &ecsWorld) {
                             const auto originX = particle.size * toFloat(particle.texture->width) * .5f;
                             const auto originY = particle.size * toFloat(particle.texture->height) * .5f;
                             const auto position = Vector2{particle.x - originX, particle.y - originY};
-                            DrawTextureEx(*particle.texture, position, 0, particle.size, Color{particle.color.r, particle.color.g, particle.color.b, alpha});
+                            DrawTextureEx(*particle.texture, position, 0, particle.size, Color{
+                                              particle.color.r, particle.color.g, particle.color.b, alpha
+                                          });
                         } else {
                             it.entity(entityIndex).destruct();
                         }
