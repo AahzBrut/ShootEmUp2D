@@ -2,7 +2,7 @@
 #include <flecs.h>
 
 
-inline void StartRenderSystem(const flecs::world &ecsWorld) {
+inline void RenderStarsSystem(const flecs::world &ecsWorld) {
     ecsWorld.system<Star>()
             .kind(flecs::OnStore)
             .run([](flecs::iter &it) {
@@ -19,9 +19,9 @@ inline void StartRenderSystem(const flecs::world &ecsWorld) {
                         posX = posX < -50.0f ? WINDOW_WIDTH : posX;
                         const auto sprite = texture;
 
-                        const auto srcRect = Rectangle{0, 0, tofloat(sprite->width), tofloat(sprite->height)};
+                        const auto srcRect = Rectangle{0, 0, toFloat(sprite->width), toFloat(sprite->height)};
                         const auto dstRect = Rectangle{
-                            posX, posY, sprite->width * size, sprite->height * size
+                            posX, posY, toFloat(sprite->width * size), toFloat(sprite->height * size)
                         };
 
                         DrawTexturePro(*sprite, srcRect, dstRect, {0, 0}, 0, color);

@@ -1,6 +1,7 @@
 #pragma once
+#include <cmath>
+
 #include <flecs.h>
-#include <math.h>
 
 inline void EnemyFiringSystem(const flecs::world &ecsWorld) {
     const auto query = ecsWorld.query<const Position, const Player>();
@@ -26,7 +27,7 @@ inline void EnemyFiringSystem(const flecs::world &ecsWorld) {
 
                         const auto bulletOffsetX = playerPosition->x - bulletPosX;
                         const auto bulletOffsetY = playerPosition->y - bulletPosY;
-                        const auto distance = sqrt(bulletOffsetX * bulletOffsetX + bulletOffsetY * bulletOffsetY);
+                        const auto distance = sqrtf(bulletOffsetX * bulletOffsetX + bulletOffsetY * bulletOffsetY);
                         const auto bulletVelocityX = bulletOffsetX * autoCanon.bulletSpeed / distance;
                         const auto bulletVelocityY = bulletOffsetY * autoCanon.bulletSpeed / distance;
 

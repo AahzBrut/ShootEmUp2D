@@ -34,12 +34,17 @@ inline void SpawnStars(const flecs::world &ecsWorld, AssetManager &assetManager)
         const auto posY = RandomRange(0, WINDOW_HEIGHT);
         ecsWorld.entity()
                 .insert([&](Star &star) {
+                    const auto starSpeed = RandomRange(10, 100);
                     star = {
                         posX, posY,
-                        RandomRange(10, 100),
+                        starSpeed,
                         RandomRange(.01, .1),
                         assetManager.GetTexture("explosion"),
-                        Color(RandomIntRange(50, 255), RandomIntRange(50, 255), RandomIntRange(50, 255), 255)
+                        Color(
+                            RandomIntRange(50, 255),
+                            RandomIntRange(50, 255),
+                            RandomIntRange(50, 255),
+                            toInt(255 * starSpeed / 100))
                     };
                 });
     }
