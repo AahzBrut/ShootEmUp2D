@@ -13,6 +13,7 @@
 #include "Systems/SpawnEnemySystem.h"
 
 inline void RegisterSystems(const flecs::world &ecsWorld) {
+    AssetsLoadSystem(ecsWorld);
     MovementSystem(ecsWorld);
     RenderBackgroundSystem(ecsWorld);
     RenderStarsSystem(ecsWorld);
@@ -20,7 +21,6 @@ inline void RegisterSystems(const flecs::world &ecsWorld) {
     PlayerControlSystem(ecsWorld);
     OffScreenDestructionSystem(ecsWorld);
     SpawnEnemySystem(ecsWorld);
-    AssetsLoadSystem(ecsWorld);
     CollisionDetectionSystem(ecsWorld);
     EnemyFiringSystem(ecsWorld);
 }
