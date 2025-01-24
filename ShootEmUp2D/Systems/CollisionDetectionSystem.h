@@ -14,11 +14,18 @@ inline void CollisionDetectionSystem(const flecs::world &ecsWorld) {
     const auto query = ecsWorld.query<const Collider>();
 
     ecsWorld.system<const Collider>()
-            .each([query](const flecs::entity entity1, const Collider &collider1) {
-                query.each([entity1, collider1](const flecs::entity entity2, const Collider &collider2) {
+            .each([&ecsWorld, query](const flecs::entity entity1, const Collider &collider1) {
+                query.each([&ecsWorld, entity1, collider1](const flecs::entity entity2, const Collider &collider2) {
                     if (entity1 >= entity2) return;
                     if (isIntersects(collider1, collider2) &&
                         CollisionLayersSettings::IsLayersCollides(collider1.layer, collider2.layer)) {
+                        // ReSharper disable once CppExpressionWithoutSideEffects
+                        ecsWorld
+                                .entity()
+                                .insert([&](Explode &explode) {
+                                    explode = {std::fmaxf(collider1.x, collider2.x), std::fmaxf(collider1.y, collider2.y)};
+                                });
+
                         entity1.destruct();
                         entity2.destruct();
                     }

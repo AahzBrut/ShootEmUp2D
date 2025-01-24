@@ -58,6 +58,10 @@ add_executable(ShootEmUp2D
         ShootEmUp2D/Components/Background.h
         ShootEmUp2D/Components/Star.h
         ShootEmUp2D/Systems/RenderStarsSystem.h
+        ShootEmUp2D/Components/ExplosionParticle.h
+        ShootEmUp2D/Components/Explode.h
+        ShootEmUp2D/Systems/SpawnExplosionSystem.h
+        ShootEmUp2D/Systems/RenderExplosionSystem.h
 )
 
 target_link_libraries(ShootEmUp2D PRIVATE raylib flecs_static)

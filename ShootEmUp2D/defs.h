@@ -6,6 +6,8 @@
 
 #define ENEMY_SPAWN_TIMEOUT 1.5f
 #define MAX_STARS 500
+#define MAX_EXPLOSION_PARTICLES 64
 
 #define toFloat(var) static_cast<float>(var)
 #define toInt(var) static_cast<int>(var)
+#define toUChar(var) static_cast<unsigned char>(var)

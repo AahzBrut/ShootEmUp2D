@@ -11,9 +11,8 @@ void Application::Initialize() const {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Shoot 'em up");
 
     RegisterComponents(ecsWorld);
-    RegisterSystems(ecsWorld);
-
     ecsWorld.set(AssetManager{});
+    RegisterSystems(ecsWorld);
 }
 
 void Application::Run() {
