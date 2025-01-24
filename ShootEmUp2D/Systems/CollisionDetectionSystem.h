@@ -10,6 +10,34 @@ inline bool isIntersects(const Collider &collider1, const Collider &collider2) {
            collider1.y + collider1.h > collider2.y;
 }
 
+inline void SpawnDebris(const flecs::world &ecsWorld, const flecs::entity entity, const Collider &collider) {
+    const auto sprite = entity.get<Sprite>()->sprite;
+    const auto width = sprite->width / DEBRIS_NUM_SLICES;
+    const auto height = sprite->height / DEBRIS_NUM_SLICES;
+    const auto velocity = entity.get<Velocity>();
+    for (auto x = 0; x < width * DEBRIS_NUM_SLICES; x += width) {
+        for (auto y = 0; y < height * DEBRIS_NUM_SLICES; y += height) {
+            // ReSharper disable once CppExpressionWithoutSideEffects
+            ecsWorld
+                    .entity()
+                    .insert([&](Debris &debris) {
+                        debris = {
+                            {collider.x + x, collider.y + y},
+                            {
+                                velocity->x + RandomRange(-10, 10),
+                                velocity->y + RandomRange(-10, 10)
+                            },
+                            Rectangle(x, y, width - 1, height - 1),
+                            0.f,
+                            RandomRange(-2, 2),
+                            RandomRange(2.5f, 5.f),
+                            sprite
+                        };
+                    });
+        }
+    }
+}
+
 inline void CollisionDetectionSystem(const flecs::world &ecsWorld) {
     const auto query = ecsWorld.query<const Collider>();
 
@@ -28,61 +56,9 @@ inline void CollisionDetectionSystem(const flecs::world &ecsWorld) {
                                     };
                                 });
 
-                        if (!entity1.has<Bullet>()) {
-                            const auto sprite = entity1.get<Sprite>()->sprite;
-                            const auto width = sprite->width / DEBRIS_NUM_SLICES;
-                            const auto height = sprite->height / DEBRIS_NUM_SLICES;
-                            const auto velocity = entity1.get<Velocity>();
-                            for (auto x = 0; x < width * DEBRIS_NUM_SLICES; x += width) {
-                                for (auto y = 0; y < height * DEBRIS_NUM_SLICES; y += height) {
-                                    // ReSharper disable once CppExpressionWithoutSideEffects
-                                    ecsWorld
-                                            .entity()
-                                            .insert([&](Debris &debris) {
-                                                debris = {
-                                                    {collider1.x + x, collider1.y + y},
-                                                    {
-                                                        velocity->x + RandomRange(-10, 10),
-                                                        velocity->y + RandomRange(-10, 10)
-                                                    },
-                                                    Rectangle(x, y, width - 1, height - 1),
-                                                    0.f,
-                                                    RandomRange(-2, 2),
-                                                    RandomRange(2.5f, 5.f),
-                                                    sprite
-                                                };
-                                            });
-                                }
-                            }
-                        }
+                        if (!entity1.has<Bullet>()) SpawnDebris(ecsWorld, entity1, collider1);
 
-                        if (!entity2.has<Bullet>()) {
-                            const auto sprite = entity2.get<Sprite>()->sprite;
-                            const auto velocity = entity2.get<Velocity>();
-                            const auto width = sprite->width / DEBRIS_NUM_SLICES;
-                            const auto height = sprite->height / DEBRIS_NUM_SLICES;
-                            for (auto x = 0; x < width * DEBRIS_NUM_SLICES; x += width) {
-                                for (auto y = 0; y < height * DEBRIS_NUM_SLICES; y += height) {
-                                    // ReSharper disable once CppExpressionWithoutSideEffects
-                                    ecsWorld
-                                            .entity()
-                                            .insert([&](Debris &debris) {
-                                                debris = {
-                                                    {collider2.x + x, collider2.y + y},
-                                                    {
-                                                        velocity->x + RandomRange(-10, 10),
-                                                        velocity->y + RandomRange(-10, 10)
-                                                    },
-                                                    Rectangle(x, y, width - 1, height - 1),
-                                                    0.f,
-                                                    RandomRange(-2, 2),
-                                                    RandomRange(2.5f, 5.f),
-                                                    sprite
-                                                };
-                                            });
-                                }
-                            }
-                        }
+                        if (!entity2.has<Bullet>()) SpawnDebris(ecsWorld, entity2, collider2);
 
                         entity1.destruct();
                         entity2.destruct();
