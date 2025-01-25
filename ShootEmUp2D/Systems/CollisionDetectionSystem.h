@@ -2,6 +2,7 @@
 #include <flecs.h>
 
 #include "Components/Collider.h"
+#include "Components/Sprite.h"
 
 inline bool isIntersects(const Collider &collider1, const Collider &collider2) {
     return collider1.x < collider2.x + collider2.w &&
@@ -22,12 +23,12 @@ inline void SpawnDebris(const flecs::world &ecsWorld, const flecs::entity entity
                     .entity()
                     .insert([&](Debris &debris) {
                         debris = {
-                            {collider.x + x, collider.y + y},
+                            {collider.x + toFloat(x), collider.y + toFloat(y)},
                             {
                                 velocity->x + RandomRange(-10, 10),
                                 velocity->y + RandomRange(-10, 10)
                             },
-                            Rectangle(x, y, width - 1, height - 1),
+                            Rectangle(toFloat(x), toFloat(y), toFloat(width - 1), toFloat(height - 1)),
                             0.f,
                             RandomRange(-2, 2),
                             RandomRange(2.5f, 5.f),
