@@ -67,6 +67,7 @@ add_executable(ShootEmUp2D
         ShootEmUp2D/AudioManager/AudioManager.cpp
         ShootEmUp2D/AudioManager/AudioManager.h
         ShootEmUp2D/Systems/MaintananceSystem.h
+        ShootEmUp2D/Systems/PlayMusicSystem.h
 )
 
 target_link_libraries(ShootEmUp2D PRIVATE raylib flecs_static)

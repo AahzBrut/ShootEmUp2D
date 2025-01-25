@@ -5,16 +5,21 @@
 
 inline void EnemyFiringSystem(const flecs::world &ecsWorld) {
     const auto query = ecsWorld.query<const Position, const Player>();
+    auto assetManager = ecsWorld.get_mut<AssetManager>();
+    auto audioManager = ecsWorld.get_mut<AudioManager>();
 
     ecsWorld.system<const Position, const Sprite, AutoCanon>()
-            .each([&ecsWorld, query](const flecs::iter &it, size_t,
-                                     const Position &position,
-                                     const Sprite &spr,
-                                     AutoCanon &autoCanon) {
+            .each([&ecsWorld, query, assetManager, audioManager](const flecs::iter &it, size_t,
+                                                   const Position &position,
+                                                   const Sprite &spr,
+                                                   AutoCanon &autoCanon) {
                     const auto deltaTime = it.delta_time();
                     autoCanon.timeSinceLastShot += deltaTime;
                     if (autoCanon.timeSinceLastShot > 1.f / autoCanon.rateOfFire) {
                         autoCanon.timeSinceLastShot = 0;
+
+                        const auto shotSound = assetManager->GetSoundEffect("laser-gun");
+                        audioManager->PlaySoundEffect(shotSound);
 
                         const auto playerEntity = query.find([](const Position, const Player) { return true; });
                         if (!playerEntity) return;

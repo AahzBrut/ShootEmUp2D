@@ -74,6 +74,8 @@ inline void AssetsLoadSystem(const flecs::world &ecsWorld) {
                 SpawnBackground(ecsWorld, *assetManager);
                 SpawnStars(ecsWorld, *assetManager);
 
+                PlayMusicStream(*assetManager->GetMusic("main-theme"));
+
                 LOG("Assets load complete.");
             });
 }

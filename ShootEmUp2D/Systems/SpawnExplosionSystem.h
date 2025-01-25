@@ -7,8 +7,12 @@
 
 inline void SpawnExplosionSystem(const flecs::world &ecsWorld) {
     auto assetManager = ecsWorld.get_mut<AssetManager>();
+    auto audioManager = ecsWorld.get_mut<AudioManager>();
+
     ecsWorld.system<const Explode>()
-            .each([&ecsWorld, assetManager](const flecs::entity entity, const Explode &explode) {
+            .each([&ecsWorld, assetManager, audioManager](const flecs::entity entity, const Explode &explode) {
+                const auto shotSound = assetManager->GetSoundEffect("explosion");
+                audioManager->PlaySoundEffect(shotSound);
 
                 for (auto i = 0; i < MAX_EXPLOSION_PARTICLES; i++) {
                     ecsWorld.entity().insert([&](ExplosionParticle &particle) {

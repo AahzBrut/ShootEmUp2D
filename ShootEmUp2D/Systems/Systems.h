@@ -2,6 +2,7 @@
 #include <flecs.h>
 
 #include "MaintananceSystem.h"
+#include "PlayMusicSystem.h"
 #include "RenderBackgroundSystem.h"
 #include "RenderDebrisSystem.h"
 #include "RenderExplosionSystem.h"
@@ -31,4 +32,5 @@ inline void RegisterSystems(const flecs::world &ecsWorld) {
     EnemyFiringSystem(ecsWorld);
     SpawnExplosionSystem(ecsWorld);
     MaintananceSystem(ecsWorld);
+    PlayMusicSystem(ecsWorld);
 }

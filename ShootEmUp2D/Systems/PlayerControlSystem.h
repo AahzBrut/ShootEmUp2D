@@ -28,7 +28,7 @@ inline void PlayerControlSystem(const flecs::world &ecsWorld) {
                     if (p.fireDelay <= 0.0f) {
                         p.fireDelay = 1.0f / p.fireRate;
 
-                        const auto shotSound = assetManager->GetSoundEffect("shotgun");
+                        const auto shotSound = assetManager->GetSoundEffect("laser");
                         audioManager->PlaySoundEffect(shotSound);
 
                         const auto bulletTexture = assetManager->GetTexture("bullet");
