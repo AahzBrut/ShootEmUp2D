@@ -5,5 +5,5 @@ int main() {
 
     application.Run();
 
-    return 0;
+    return EXIT_SUCCESS;
 }
