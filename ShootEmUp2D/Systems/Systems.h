@@ -6,6 +6,7 @@
 #include "RenderBackgroundSystem.h"
 #include "RenderDebrisSystem.h"
 #include "RenderExplosionSystem.h"
+#include "RenderScoreSystem.h"
 #include "RenderStarsSystem.h"
 #include "SpawnExplosionSystem.h"
 #include "Systems/AssetsLoadSystem.h"
@@ -33,4 +34,5 @@ inline void RegisterSystems(const flecs::world &ecsWorld) {
     SpawnExplosionSystem(ecsWorld);
     MaintananceSystem(ecsWorld);
     PlayMusicSystem(ecsWorld);
+    RenderScoreSystem(ecsWorld);
 }

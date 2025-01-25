@@ -41,10 +41,11 @@ inline void SpawnDebris(const flecs::world &ecsWorld, const flecs::entity entity
 
 inline void CollisionDetectionSystem(const flecs::world &ecsWorld) {
     const auto query = ecsWorld.query<const Collider>();
+    const auto playerQuery = ecsWorld.query<Player>();
 
     ecsWorld.system<const Collider>()
-            .each([&ecsWorld, query](const flecs::entity entity1, const Collider &collider1) {
-                query.each([&ecsWorld, entity1, collider1](const flecs::entity entity2, const Collider &collider2) {
+            .each([&ecsWorld, query, playerQuery](const flecs::entity entity1, const Collider &collider1) {
+                query.each([&ecsWorld, entity1, collider1, playerQuery](const flecs::entity entity2, const Collider &collider2) {
                     if (entity1 >= entity2) return;
                     if (isIntersects(collider1, collider2) &&
                         CollisionLayersSettings::IsLayersCollides(collider1.layer, collider2.layer)) {
@@ -58,8 +59,15 @@ inline void CollisionDetectionSystem(const flecs::world &ecsWorld) {
                                 });
 
                         if (!entity1.has<Bullet>()) SpawnDebris(ecsWorld, entity1, collider1);
-
                         if (!entity2.has<Bullet>()) SpawnDebris(ecsWorld, entity2, collider2);
+
+                        if (collider1.layer == CollisionLayer::PlayerBullet && collider2.layer == CollisionLayer::Enemy ||
+                            collider1.layer == CollisionLayer::Enemy && collider2.layer == CollisionLayer::PlayerBullet) {
+                            if (const auto playerEntity = playerQuery.find([](Player &) { return true; })) {
+                                const auto player = playerEntity.get_mut<Player>();
+                                player->score += 100;
+                            }
+                        }
 
                         entity1.destruct();
                         entity2.destruct();

@@ -10,25 +10,26 @@ inline void EnemyFiringSystem(const flecs::world &ecsWorld) {
 
     ecsWorld.system<const Position, const Sprite, AutoCanon>()
             .each([&ecsWorld, query, assetManager, audioManager](const flecs::iter &it, size_t,
-                                                   const Position &position,
-                                                   const Sprite &spr,
-                                                   AutoCanon &autoCanon) {
+                                                                 const Position &position,
+                                                                 const Sprite &spr,
+                                                                 AutoCanon &autoCanon) {
                     const auto deltaTime = it.delta_time();
                     autoCanon.timeSinceLastShot += deltaTime;
                     if (autoCanon.timeSinceLastShot > 1.f / autoCanon.rateOfFire) {
                         autoCanon.timeSinceLastShot = 0;
 
+                        const auto playerEntity = query.find([](const Position &, const Player &) { return true; });
+                        if (!playerEntity) return;
+
                         const auto shotSound = assetManager->GetSoundEffect("laser-gun");
                         audioManager->PlaySoundEffect(shotSound);
 
-                        const auto playerEntity = query.find([](const Position, const Player) { return true; });
-                        if (!playerEntity) return;
                         const auto playerPosition = playerEntity.get<Position>();
 
                         const auto bulletTexture = autoCanon.bulletTexture;
-                        const auto bulletPosX = position.x - static_cast<float>(bulletTexture->width);
-                        const auto bulletPosY = position.y + static_cast<float>(spr.sprite->height) / 2 -
-                                                static_cast<float>(bulletTexture->height) / 2;
+                        const auto bulletPosX = position.x - toFloat(bulletTexture->width);
+                        const auto bulletPosY = position.y + toFloat(spr.sprite->height) / 2 -
+                                                toFloat(bulletTexture->height) / 2;
 
                         const auto bulletOffsetX = playerPosition->x - bulletPosX;
                         const auto bulletOffsetY = playerPosition->y - bulletPosY;
@@ -45,8 +46,8 @@ inline void EnemyFiringSystem(const flecs::world &ecsWorld) {
                                     sprite = {bulletTexture};
                                     collider = {
                                         bulletPosX, bulletPosY,
-                                        static_cast<float>(bulletTexture->width),
-                                        static_cast<float>(bulletTexture->height),
+                                        toFloat(bulletTexture->width),
+                                        toFloat(bulletTexture->height),
                                         CollisionLayer::EnemyBullet
                                     };
                                 })

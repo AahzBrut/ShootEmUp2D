@@ -6,4 +6,5 @@ struct Player {
     float fireRate;
     float fireDelay;
     float bulletSpeed;
+    int score;
 };
