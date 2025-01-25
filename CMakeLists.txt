@@ -64,6 +64,9 @@ add_executable(ShootEmUp2D
         ShootEmUp2D/Systems/RenderExplosionSystem.h
         ShootEmUp2D/Components/Debris.h
         ShootEmUp2D/Systems/RenderDebrisSystem.h
+        ShootEmUp2D/AudioManager/AudioManager.cpp
+        ShootEmUp2D/AudioManager/AudioManager.h
+        ShootEmUp2D/Systems/MaintananceSystem.h
 )
 
 target_link_libraries(ShootEmUp2D PRIVATE raylib flecs_static)

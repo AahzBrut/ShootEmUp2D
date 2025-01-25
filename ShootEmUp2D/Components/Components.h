@@ -23,6 +23,7 @@ inline void RegisterComponents(const flecs::world &ecsWorld) {
     ecsWorld.component<Player>();
     ecsWorld.component<Bullet>();
     ecsWorld.component<AssetManager>();
+    ecsWorld.component<AudioManager>();
     ecsWorld.component<Collider>();
     ecsWorld.component<AutoCanon>();
     ecsWorld.component<Background>();

@@ -7,10 +7,11 @@
 
 
 inline void PlayerControlSystem(const flecs::world &ecsWorld) {
+    auto assetManager = ecsWorld.get_mut<AssetManager>();
+    auto audioManager = ecsWorld.get_mut<AudioManager>();
     ecsWorld.system<Player, const Position, const Sprite, Velocity>()
-            .each([&](const flecs::iter &it, size_t, Player &p, const Position &pos, const Sprite &spr, Velocity &v) {
-                const auto assetManager = ecsWorld.get_mut<AssetManager>();
-
+            .each([&ecsWorld, assetManager, audioManager](const flecs::iter &it, size_t, Player &p, const Position &pos,
+                                                          const Sprite &spr, Velocity &v) {
                 v.x = v.y = 0.0f;
                 if (p.fireDelay > 0.f) {
                     const auto deltaTime = it.delta_time();
@@ -26,19 +27,26 @@ inline void PlayerControlSystem(const flecs::world &ecsWorld) {
                 if (IsKeyDown(KEY_SPACE)) {
                     if (p.fireDelay <= 0.0f) {
                         p.fireDelay = 1.0f / p.fireRate;
+
+                        const auto shotSound = assetManager->GetSoundEffect("shotgun");
+                        audioManager->PlaySoundEffect(shotSound);
+
                         const auto bulletTexture = assetManager->GetTexture("bullet");
-                        const auto bulletPosX = pos.x + static_cast<float>(spr.sprite->width) / 2 - static_cast<float>(
-                                                    bulletTexture->width) / 2;
-                        const auto bulletPosY = pos.y + static_cast<float>(spr.sprite->height) / 2 - static_cast<float>(
-                                                    bulletTexture->height) / 2;
+                        const auto bulletPosX = pos.x + toFloat(spr.sprite->width) - toFloat(bulletTexture->width) / 2;
+                        const auto bulletPosY = pos.y + toFloat(spr.sprite->height) / 2 - toFloat(bulletTexture->height)
+                                                / 2;
 
                         // ReSharper disable once CppExpressionWithoutSideEffects
                         ecsWorld.entity()
-                                .insert([&](Position &bulletPos, Velocity &bulletVelocity, Sprite &sprite, Collider &collider) {
+                                .insert([&](Position &bulletPos, Velocity &bulletVelocity, Sprite &sprite,
+                                            Collider &collider) {
                                     bulletPos = {bulletPosX, bulletPosY};
                                     bulletVelocity = {p.bulletSpeed, 0};
                                     sprite = {bulletTexture};
-                                    collider = {bulletPosX, bulletPosY, static_cast<float>(bulletTexture->width), static_cast<float>(bulletTexture->height), CollisionLayer::PlayerBullet};
+                                    collider = {
+                                        bulletPosX, bulletPosY, toFloat(bulletTexture->width),
+                                        toFloat(bulletTexture->height), CollisionLayer::PlayerBullet
+                                    };
                                 })
                                 .add<Bullet>();
                     }

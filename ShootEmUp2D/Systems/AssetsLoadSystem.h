@@ -62,6 +62,14 @@ inline void AssetsLoadSystem(const flecs::world &ecsWorld) {
                 assetManager->LoadTexture("background", "./assets/gfx/background.png");
                 assetManager->LoadTexture("explosion", "./assets/gfx/explosion.png");
 
+                assetManager->LoadMusic("main-theme", "./assets/music/Mercury.ogg");
+
+                assetManager->LoadSound("explosion", "./assets/sound/Explosion.ogg");
+                assetManager->LoadSound("laser", "./assets/sound/Laser.ogg");
+                assetManager->LoadSound("laser-gun", "./assets/sound/LaserGun.ogg");
+                assetManager->LoadSound("notification", "./assets/sound/Notification.ogg");
+                assetManager->LoadSound("shotgun", "./assets/sound/Shotgun.ogg");
+
                 SpawnPlayer(ecsWorld, *assetManager);
                 SpawnBackground(ecsWorld, *assetManager);
                 SpawnStars(ecsWorld, *assetManager);

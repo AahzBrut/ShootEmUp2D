@@ -3,15 +3,18 @@
 #include <raylib.h>
 
 #include "defs.h"
+#include "AudioManager/AudioManager.h"
 #include "Components/Components.h"
 #include "Systems/Systems.h"
 
 
 void Application::Initialize() const {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Shoot 'em up");
+    InitAudioDevice();
 
     RegisterComponents(ecsWorld);
     ecsWorld.set(AssetManager{});
+    ecsWorld.set(AudioManager{});
     RegisterSystems(ecsWorld);
 }
 
@@ -35,5 +38,6 @@ void Application::Run() {
 
 // ReSharper disable once CppMemberFunctionMayBeStatic
 void Application::DeInitialize() {
+    CloseAudioDevice();
     CloseWindow();
 }

@@ -30,7 +30,7 @@ inline void SpawnDebris(const flecs::world &ecsWorld, const flecs::entity entity
                             },
                             Rectangle(toFloat(x), toFloat(y), toFloat(width - 1), toFloat(height - 1)),
                             0.f,
-                            RandomRange(-2, 2),
+                            RandomRange(-PI *4, PI * 4),
                             RandomRange(2.5f, 5.f),
                             sprite
                         };

@@ -1,6 +1,7 @@
 #pragma once
 #include <flecs.h>
 
+#include "MaintananceSystem.h"
 #include "RenderBackgroundSystem.h"
 #include "RenderDebrisSystem.h"
 #include "RenderExplosionSystem.h"
@@ -29,4 +30,5 @@ inline void RegisterSystems(const flecs::world &ecsWorld) {
     CollisionDetectionSystem(ecsWorld);
     EnemyFiringSystem(ecsWorld);
     SpawnExplosionSystem(ecsWorld);
+    MaintananceSystem(ecsWorld);
 }
