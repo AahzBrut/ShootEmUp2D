@@ -25,8 +25,8 @@ inline void SpawnDebris(const flecs::world &ecsWorld, const flecs::entity entity
                         debris = {
                             {collider.x + toFloat(x), collider.y + toFloat(y)},
                             {
-                                velocity->x + RandomRange(-10, 10),
-                                velocity->y + RandomRange(-10, 10)
+                                velocity->x + RandomRange(-30, 30),
+                                velocity->y + RandomRange(-100, 100)
                             },
                             Rectangle(toFloat(x), toFloat(y), toFloat(width - 1), toFloat(height - 1)),
                             0.f,

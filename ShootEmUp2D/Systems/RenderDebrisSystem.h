@@ -9,6 +9,7 @@ inline void RenderDebrisSystem(const flecs::world &ecsWorld) {
                 const auto deltaTime = it.delta_time();
                 debris.position.x += deltaTime * debris.velocity.x;
                 debris.position.y += deltaTime * debris.velocity.y;
+                debris.rotation += deltaTime * debris.rotationSpeed;
                 debris.lifeTimeLeft -= deltaTime;
                 if (debris.lifeTimeLeft >= 0) {
                     DrawTexturePro(
@@ -16,7 +17,7 @@ inline void RenderDebrisSystem(const flecs::world &ecsWorld) {
                         debris.textureRect,
                         Rectangle(debris.position.x, debris.position.y, debris.textureRect.width, debris.textureRect.height),
                         Vector2(debris.textureRect.width / 2, debris.textureRect.height / 2),
-                        0,
+                        debris.rotation,
                         WHITE
                         );
                 } else {
