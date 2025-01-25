@@ -19,7 +19,7 @@ inline void SpawnEnemy(const flecs::iter &it) {
                 p = {WINDOW_WIDTH, enemyYPos};
                 v = {-60, 0};
                 s = {enemyTexture};
-                collider = {p.x, p.y, static_cast<float>(enemyTexture->width), static_cast<float>(enemyTexture->height), CollisionLayer::Enemy};
+                collider = {p.x, p.y, toFloat(enemyTexture->width), toFloat(enemyTexture->height), CollisionLayer::Enemy};
                 canon = { .2f, 1.f/.2f, 100, enemyBulletTexture, CollisionLayer::EnemyBullet};
             });
 }

@@ -15,8 +15,8 @@ inline void SpawnPlayer(const flecs::world &ecsWorld, AssetManager &assetManager
                 s = {playerSprite};
                 pl = {100, 5, 0, 250, 0};
                 collider = {
-                    100, 100, static_cast<float>(playerSprite->width),
-                    static_cast<float>(playerSprite->height), CollisionLayer::Player
+                    100, 100, toFloat(playerSprite->width),
+                    toFloat(playerSprite->height), CollisionLayer::Player
                 };
             });
 }

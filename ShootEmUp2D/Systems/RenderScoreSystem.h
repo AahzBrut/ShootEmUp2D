@@ -21,6 +21,7 @@ inline void RenderScoreSystem(const flecs::world &ecsWorld) {
 
                 char stringBuffer[16];
                 sprintf(&stringBuffer[0], "Score: %d", score);
-                DrawText(stringBuffer, WINDOW_WIDTH - 180, 10, 32, WHITE);
+                const auto textWidth= MeasureText(stringBuffer, 32);
+                DrawText(stringBuffer, WINDOW_WIDTH - textWidth - 10, 10, 32, WHITE);
             });
 }
