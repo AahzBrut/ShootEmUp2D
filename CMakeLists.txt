@@ -69,6 +69,7 @@ add_executable(ShootEmUp2D
         ShootEmUp2D/Systems/MaintananceSystem.h
         ShootEmUp2D/Systems/PlayMusicSystem.h
         ShootEmUp2D/Systems/RenderScoreSystem.h
+        ShootEmUp2D/Components/PointsPickup.h
 )
 
 target_link_libraries(ShootEmUp2D PRIVATE raylib flecs_static)

@@ -30,7 +30,7 @@ inline void SpawnDebris(const flecs::world &ecsWorld, const flecs::entity entity
                             },
                             Rectangle(toFloat(x), toFloat(y), toFloat(width - 1), toFloat(height - 1)),
                             0.f,
-                            RandomRange(-PI *4, PI * 4),
+                            RandomRange(-PI * 4, PI * 4),
                             RandomRange(2.5f, 5.f),
                             sprite
                         };
@@ -39,39 +39,67 @@ inline void SpawnDebris(const flecs::world &ecsWorld, const flecs::entity entity
     }
 }
 
+inline void SpawnPointsPickup(const flecs::world &ecsWorld, AssetManager *assetManager, const Collider &collider) {
+    // ReSharper disable once CppExpressionWithoutSideEffects
+    ecsWorld
+            .entity()
+            .insert([&](Position &position, Velocity &velocity, Collider &coll, Sprite &sprite, PointsPickup &pointsPickup) {
+                position = {collider.x, collider.y};
+                velocity = {-100.f, 0.f};
+                coll = {collider.x, collider.y, 36,36, CollisionLayer::PointsPickup};
+                sprite = {assetManager->GetTexture("points-pickup")};
+                pointsPickup = {100};
+            });
+}
+
 inline void CollisionDetectionSystem(const flecs::world &ecsWorld) {
     const auto query = ecsWorld.query<const Collider>();
     const auto playerQuery = ecsWorld.query<Player>();
+    auto assetManager = ecsWorld.get_mut<AssetManager>();
+    auto audioManager = ecsWorld.get_mut<AudioManager>();
 
     ecsWorld.system<const Collider>()
-            .each([&ecsWorld, query, playerQuery](const flecs::entity entity1, const Collider &collider1) {
-                query.each([&ecsWorld, entity1, collider1, playerQuery](const flecs::entity entity2, const Collider &collider2) {
-                    if (entity1 >= entity2) return;
-                    if (isIntersects(collider1, collider2) &&
-                        CollisionLayersSettings::IsLayersCollides(collider1.layer, collider2.layer)) {
-                        // ReSharper disable once CppExpressionWithoutSideEffects
-                        ecsWorld
-                                .entity()
-                                .insert([&](Explode &explode) {
-                                    explode = {
-                                        std::fmaxf(collider1.x, collider2.x), std::fmaxf(collider1.y, collider2.y)
-                                    };
-                                });
+            .each([&ecsWorld, assetManager, audioManager, query, playerQuery](
+            const flecs::entity entity1, const Collider &collider1) {
+                    query.each([&ecsWorld, assetManager, audioManager, entity1, collider1, playerQuery](
+                    const flecs::entity entity2, const Collider &collider2) {
+                            if (entity1 >= entity2) return;
+                            if (isIntersects(collider1, collider2) &&
+                                CollisionLayersSettings::IsLayersCollides(collider1.layer, collider2.layer)) {
+                                if (collider1.layer == CollisionLayer::Player && collider2.layer ==
+                                    CollisionLayer::PointsPickup ||
+                                    collider1.layer == CollisionLayer::PointsPickup && collider2.layer ==
+                                    CollisionLayer::Player) {
+                                    if (const auto playerEntity = playerQuery.find([](Player &) { return true; })) {
+                                        const auto player = playerEntity.get_mut<Player>();
+                                        const auto pickupEntity = entity1.has<PointsPickup>() ? entity1 : entity2;
+                                        player->score += pickupEntity.get<PointsPickup>()->pointsAmount;
+                                        pickupEntity.destruct();
+                                        audioManager->PlaySoundEffect(assetManager->GetSoundEffect("notification"));
+                                        return;
+                                    }
+                                }
 
-                        if (!entity1.has<Bullet>()) SpawnDebris(ecsWorld, entity1, collider1);
-                        if (!entity2.has<Bullet>()) SpawnDebris(ecsWorld, entity2, collider2);
+                                // ReSharper disable once CppExpressionWithoutSideEffects
+                                ecsWorld
+                                        .entity()
+                                        .insert([&](Explode &explode) {
+                                            explode = {
+                                                std::fmaxf(collider1.x, collider2.x),
+                                                std::fmaxf(collider1.y, collider2.y)
+                                            };
+                                        });
 
-                        if (collider1.layer == CollisionLayer::PlayerBullet && collider2.layer == CollisionLayer::Enemy ||
-                            collider1.layer == CollisionLayer::Enemy && collider2.layer == CollisionLayer::PlayerBullet) {
-                            if (const auto playerEntity = playerQuery.find([](Player &) { return true; })) {
-                                const auto player = playerEntity.get_mut<Player>();
-                                player->score += 100;
+                                if (collider1.layer == CollisionLayer::Enemy) SpawnPointsPickup(
+                                    ecsWorld, assetManager, collider1);
+                                if (collider2.layer == CollisionLayer::Enemy) SpawnPointsPickup(
+                                    ecsWorld, assetManager, collider2);
+                                if (!entity1.has<Bullet>()) SpawnDebris(ecsWorld, entity1, collider1);
+                                if (!entity2.has<Bullet>()) SpawnDebris(ecsWorld, entity2, collider2);
+
+                                entity1.destruct();
+                                entity2.destruct();
                             }
-                        }
-
-                        entity1.destruct();
-                        entity2.destruct();
-                    }
+                        });
                 });
-            });
 }

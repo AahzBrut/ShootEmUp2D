@@ -61,6 +61,7 @@ inline void AssetsLoadSystem(const flecs::world &ecsWorld) {
                 assetManager->LoadTexture("enemy-bullet", "./assets/gfx/alienBullet.png");
                 assetManager->LoadTexture("background", "./assets/gfx/background.png");
                 assetManager->LoadTexture("explosion", "./assets/gfx/explosion.png");
+                assetManager->LoadTexture("points-pickup", "./assets/gfx/points.png");
 
                 assetManager->LoadMusic("main-theme", "./assets/music/Mercury.ogg");
 

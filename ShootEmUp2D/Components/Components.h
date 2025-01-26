@@ -6,6 +6,7 @@
 #include "Debris.h"
 #include "Explode.h"
 #include "ExplosionParticle.h"
+#include "PointsPickup.h"
 #include "Star.h"
 #include "AssetManager/AssetManager.h"
 #include "Components/Bullet.h"
@@ -31,4 +32,5 @@ inline void RegisterComponents(const flecs::world &ecsWorld) {
     ecsWorld.component<ExplosionParticle>();
     ecsWorld.component<Explode>();
     ecsWorld.component<Debris>();
+    ecsWorld.component<PointsPickup>();
 }

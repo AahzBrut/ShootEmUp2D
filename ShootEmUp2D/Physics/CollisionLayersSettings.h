@@ -9,6 +9,7 @@ enum class CollisionLayer {
     PlayerBullet,
     Enemy,
     EnemyBullet,
+    PointsPickup,
     LastLayer,
 };
 
@@ -18,6 +19,7 @@ inline CollisionLayer CollisionLayerFromString(const std::string& str) {
     if (str == "PlayerBullet") { return CollisionLayer::PlayerBullet; }
     if (str == "Enemy") { return CollisionLayer::Enemy; }
     if (str == "EnemyBullet") { return CollisionLayer::EnemyBullet; }
+    if (str == "PointsPickup") { return CollisionLayer::PointsPickup; }
     return CollisionLayer::None;
 }
 
@@ -37,6 +39,7 @@ class CollisionLayersSettings {
         SetLayersCollides(CollisionLayer::Enemy, CollisionLayer::PlayerBullet);
         SetLayersCollides(CollisionLayer::Player, CollisionLayer::Enemy);
         SetLayersCollides(CollisionLayer::PlayerBullet, CollisionLayer::EnemyBullet);
+        SetLayersCollides(CollisionLayer::Player, CollisionLayer::PointsPickup);
     }
 
 public:
