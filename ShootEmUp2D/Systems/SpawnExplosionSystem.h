@@ -5,6 +5,12 @@
 #include "Utils/Random.h"
 
 
+constexpr Color EXPLOSION_COLORS[3] {
+    Color{255, 0, 0, 255},
+    Color{255, 128, 0, 255},
+    Color{255, 255, 0, 255},
+};
+
 inline void SpawnExplosionSystem(const flecs::world &ecsWorld) {
     auto assetManager = ecsWorld.get_mut<AssetManager>();
     auto audioManager = ecsWorld.get_mut<AudioManager>();
@@ -26,7 +32,7 @@ inline void SpawnExplosionSystem(const flecs::world &ecsWorld) {
                             RandomRange(1, 3),
                             0.f,
                             assetManager->GetTexture("explosion"),
-                            Color(RandomIntRange(0, 255), RandomIntRange(0, 255), RandomIntRange(0, 255), 255)
+                            EXPLOSION_COLORS[RandomIntRange(0, 2)]
                         };
                     });
                 }
