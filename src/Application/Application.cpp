@@ -11,6 +11,7 @@
 void Application::Initialize() const {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Shoot 'em up");
     InitAudioDevice();
+    SetTargetFPS(60);
 
     RegisterComponents(ecsWorld);
     ecsWorld.set(AssetManager{});
@@ -18,7 +19,7 @@ void Application::Initialize() const {
     RegisterSystems(ecsWorld);
 }
 
-void Application::Run() {
+void Application::Run() const {
     Initialize();
 
     while (!WindowShouldClose()) {
@@ -36,7 +37,6 @@ void Application::Run() {
     DeInitialize();
 }
 
-// ReSharper disable once CppMemberFunctionMayBeStatic
 void Application::DeInitialize() {
     CloseAudioDevice();
     CloseWindow();

@@ -3,6 +3,7 @@
 
 #include "defs.h"
 #include "Components/Position.h"
+#include "Components/Player.h"
 
 inline void OffScreenDestructionSystem(const flecs::world &ecsWorld) {
     ecsWorld.system<const Position>()

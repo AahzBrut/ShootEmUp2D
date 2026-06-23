@@ -3,6 +3,7 @@
 #include <raylib.h>
 
 #include "Components/Position.h"
+#include "Components/Sprite.h"
 
 inline void RenderSystem(const flecs::world &ecsWorld) {
     ecsWorld.system<const Position, const Sprite>()
