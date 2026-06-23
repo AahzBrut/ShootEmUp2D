@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.30)
 project(ShootEmUp2D)
 
+set(CMAKE_TLS_VERIFY FALSE)
 set(CMAKE_CXX_STANDARD 20)
 set(BUILD_SHARED_LIBS OFF)
 add_compile_definitions(FLECS_CPP_NO_AUTO_REGISTRATION)
 
 include(FetchContent)
+file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 FetchContent_Declare(
         raylib
@@ -25,55 +27,14 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(raylib flecs)
 
-add_executable(ShootEmUp2D
-        ShootEmUp2D/main.cpp
-        ShootEmUp2D/Application/Application.cpp
-        ShootEmUp2D/Application/Application.h
-        ShootEmUp2D/defs.h
-        ShootEmUp2D/Components/Position.h
-        ShootEmUp2D/Components/Velocity.h
-        ShootEmUp2D/Systems/MovementSystem.h
-        ShootEmUp2D/Systems/RenderSystem.h
-        ShootEmUp2D/Components/Components.h
-        ShootEmUp2D/Systems/Systems.h
-        ShootEmUp2D/AssetManager/AssetManager.cpp
-        ShootEmUp2D/AssetManager/AssetManager.h
-        ShootEmUp2D/TypeDefs.h
-        ShootEmUp2D/Logger.h
-        ShootEmUp2D/Components/Sprite.h
-        ShootEmUp2D/Components/Player.h
-        ShootEmUp2D/Systems/PlayerControlSystem.h
-        ShootEmUp2D/Components/Bullet.h
-        ShootEmUp2D/Systems/OffScreenDestructionSystem.h
-        ShootEmUp2D/Systems/SpawnEnemySystem.h
-        ShootEmUp2D/Utils/Random.h
-        ShootEmUp2D/Systems/AssetsLoadSystem.h
-        ShootEmUp2D/Components/Collider.h
-        ShootEmUp2D/Physics/CollisionLayersSettings.cpp
-        ShootEmUp2D/Physics/CollisionLayersSettings.h
-        ShootEmUp2D/Systems/CollisionDetectionSystem.h
-        ShootEmUp2D/Components/AutoCanon.h
-        ShootEmUp2D/Systems/EnemyFiringSystem.h
-        ShootEmUp2D/Systems/RenderBackgroundSystem.h
-        ShootEmUp2D/Components/Background.h
-        ShootEmUp2D/Components/Star.h
-        ShootEmUp2D/Systems/RenderStarsSystem.h
-        ShootEmUp2D/Components/ExplosionParticle.h
-        ShootEmUp2D/Components/Explode.h
-        ShootEmUp2D/Systems/SpawnExplosionSystem.h
-        ShootEmUp2D/Systems/RenderExplosionSystem.h
-        ShootEmUp2D/Components/Debris.h
-        ShootEmUp2D/Systems/RenderDebrisSystem.h
-        ShootEmUp2D/AudioManager/AudioManager.cpp
-        ShootEmUp2D/AudioManager/AudioManager.h
-        ShootEmUp2D/Systems/MaintananceSystem.h
-        ShootEmUp2D/Systems/PlayMusicSystem.h
-        ShootEmUp2D/Systems/RenderScoreSystem.h
-        ShootEmUp2D/Components/PointsPickup.h
-)
+add_executable(${CMAKE_PROJECT_NAME})
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${MY_SOURCES})
 
-target_link_libraries(ShootEmUp2D PRIVATE raylib flecs_static)
-target_include_directories(ShootEmUp2D PRIVATE ShootEmUp2D)
+target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -static-libgcc -static-libstdc++ -static)
+target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -mwindows)
+
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE raylib flecs_static)
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE src)
 
 add_custom_target(COPY_ASSETS
         COMMAND
