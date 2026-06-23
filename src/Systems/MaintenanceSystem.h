@@ -5,7 +5,7 @@
 #include "AudioManager/AudioManager.h"
 
 inline void MaintenanceSystem(const flecs::world &ecsWorld) {
-    auto audioManager = ecsWorld.get_mut<AudioManager>();
+    auto audioManager = &ecsWorld.get_mut<AudioManager>();
     ecsWorld.system()
             .interval(MAINTANANCE_TIMEOUT)
             .run([audioManager](const flecs::iter) {

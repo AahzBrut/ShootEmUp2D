@@ -12,8 +12,8 @@ constexpr Color EXPLOSION_COLORS[3] {
 };
 
 inline void SpawnExplosionSystem(const flecs::world &ecsWorld) {
-    auto assetManager = ecsWorld.get_mut<AssetManager>();
-    auto audioManager = ecsWorld.get_mut<AudioManager>();
+    auto assetManager = &ecsWorld.get_mut<AssetManager>();
+    auto audioManager = &ecsWorld.get_mut<AudioManager>();
 
     ecsWorld.system<const Explode>()
             .each([&ecsWorld, assetManager, audioManager](const flecs::entity entity, const Explode &explode) {

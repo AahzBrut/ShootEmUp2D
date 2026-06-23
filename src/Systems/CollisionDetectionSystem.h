@@ -12,7 +12,7 @@ inline bool isIntersects(const Collider &collider1, const Collider &collider2) {
 }
 
 inline void SpawnDebris(const flecs::world &ecsWorld, const flecs::entity entity, const Collider &collider) {
-    const auto sprite = entity.get<Sprite>()->sprite;
+    const auto sprite = entity.get<Sprite>().sprite;
     const auto width = sprite->width / DEBRIS_NUM_SLICES;
     const auto height = sprite->height / DEBRIS_NUM_SLICES;
     const auto velocity = entity.get<Velocity>();
@@ -25,8 +25,8 @@ inline void SpawnDebris(const flecs::world &ecsWorld, const flecs::entity entity
                         debris = {
                             {collider.x + toFloat(x), collider.y + toFloat(y)},
                             {
-                                velocity->x + RandomRange(-30, 30),
-                                velocity->y + RandomRange(-100, 100)
+                                velocity.x + RandomRange(-30, 30),
+                                velocity.y + RandomRange(-100, 100)
                             },
                             Rectangle(toFloat(x), toFloat(y), toFloat(width - 1), toFloat(height - 1)),
                             0.f,
@@ -55,8 +55,8 @@ inline void SpawnPointsPickup(const flecs::world &ecsWorld, AssetManager *assetM
 inline void CollisionDetectionSystem(const flecs::world &ecsWorld) {
     const auto query = ecsWorld.query<const Collider>();
     const auto playerQuery = ecsWorld.query<Player>();
-    auto assetManager = ecsWorld.get_mut<AssetManager>();
-    auto audioManager = ecsWorld.get_mut<AudioManager>();
+    auto assetManager = &ecsWorld.get_mut<AssetManager>();
+    auto audioManager = &ecsWorld.get_mut<AudioManager>();
 
     ecsWorld.system<const Collider>()
             .each([&ecsWorld, assetManager, audioManager, query, playerQuery](
@@ -71,9 +71,9 @@ inline void CollisionDetectionSystem(const flecs::world &ecsWorld) {
                                     collider1.layer == CollisionLayer::PointsPickup && collider2.layer ==
                                     CollisionLayer::Player) {
                                     if (const auto playerEntity = playerQuery.find([](Player &) { return true; })) {
-                                        const auto player = playerEntity.get_mut<Player>();
+                                        const auto player = &playerEntity.get_mut<Player>();
                                         const auto pickupEntity = entity1.has<PointsPickup>() ? entity1 : entity2;
-                                        player->score += pickupEntity.get<PointsPickup>()->pointsAmount;
+                                        player->score += pickupEntity.get<PointsPickup>().pointsAmount;
                                         pickupEntity.destruct();
                                         audioManager->PlaySoundEffect(assetManager->GetSoundEffect("notification"));
                                         return;

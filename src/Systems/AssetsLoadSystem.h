@@ -54,7 +54,7 @@ inline void AssetsLoadSystem(const flecs::world &ecsWorld) {
     ecsWorld.system()
             .kind(flecs::OnStart)
             .run([&](flecs::iter &_) {
-                const auto assetManager = ecsWorld.get_mut<AssetManager>();
+                const auto assetManager = &ecsWorld.get_mut<AssetManager>();
                 assetManager->LoadTexture("player", "./assets/gfx/player.png");
                 assetManager->LoadTexture("bullet", "./assets/gfx/playerBullet.png");
                 assetManager->LoadTexture("enemy", "./assets/gfx/enemy.png");

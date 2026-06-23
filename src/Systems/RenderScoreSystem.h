@@ -15,7 +15,7 @@ inline void RenderScoreSystem(const flecs::world &ecsWorld) {
                 static auto score = 0;
 
                 if (const auto playerEntity = playerQuery.find([](Player &) { return true; })) {
-                    const auto player = playerEntity.get_mut<Player>();
+                    const auto player = &playerEntity.get_mut<Player>();
                     score = player->score;
                 }
 

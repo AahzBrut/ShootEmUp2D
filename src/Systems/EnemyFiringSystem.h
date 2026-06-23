@@ -5,8 +5,8 @@
 
 inline void EnemyFiringSystem(const flecs::world &ecsWorld) {
     const auto query = ecsWorld.query<const Position, const Player>();
-    auto assetManager = ecsWorld.get_mut<AssetManager>();
-    auto audioManager = ecsWorld.get_mut<AudioManager>();
+    auto assetManager = &ecsWorld.get_mut<AssetManager>();
+    auto audioManager = &ecsWorld.get_mut<AudioManager>();
 
     ecsWorld.system<const Position, const Sprite, AutoCanon>()
             .each([&ecsWorld, query, assetManager, audioManager](const flecs::iter &it, size_t,
@@ -31,8 +31,8 @@ inline void EnemyFiringSystem(const flecs::world &ecsWorld) {
                         const auto bulletPosY = position.y + toFloat(spr.sprite->height) / 2 -
                                                 toFloat(bulletTexture->height) / 2;
 
-                        const auto bulletOffsetX = playerPosition->x - bulletPosX;
-                        const auto bulletOffsetY = playerPosition->y - bulletPosY;
+                        const auto bulletOffsetX = playerPosition.x - bulletPosX;
+                        const auto bulletOffsetY = playerPosition.y - bulletPosY;
                         const auto distance = sqrtf(bulletOffsetX * bulletOffsetX + bulletOffsetY * bulletOffsetY);
                         const auto bulletVelocityX = bulletOffsetX * autoCanon.bulletSpeed / distance;
                         const auto bulletVelocityY = bulletOffsetY * autoCanon.bulletSpeed / distance;

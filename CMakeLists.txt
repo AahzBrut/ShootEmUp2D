@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 4.2)
 project(ShootEmUp2D)
 
 set(CMAKE_TLS_VERIFY FALSE)
@@ -12,7 +12,7 @@ file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*
 FetchContent_Declare(
         raylib
         GIT_REPOSITORY https://github.com/raysan5/raylib.git
-        GIT_TAG 5.5
+        GIT_TAG 6.0
         GIT_SHALLOW TRUE
         GIT_PROGRESS TRUE
 )
@@ -20,7 +20,7 @@ FetchContent_Declare(
 FetchContent_Declare(
         flecs
         GIT_REPOSITORY https://github.com/SanderMertens/flecs.git
-        GIT_TAG v4.0.4
+        GIT_TAG v4.1.5
         GIT_SHALLOW TRUE
         GIT_PROGRESS TRUE
 )
@@ -36,9 +36,6 @@ target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -mwindows)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE raylib flecs_static)
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE src)
 
-add_custom_target(COPY_ASSETS
-        COMMAND
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND
         ${CMAKE_COMMAND} -E copy_directory_if_different
-        "${CMAKE_CURRENT_LIST_DIR}/assets" "${CMAKE_CURRENT_BINARY_DIR}/assets"
-)
-add_dependencies(${CMAKE_PROJECT_NAME} COPY_ASSETS)
+        "${CMAKE_CURRENT_LIST_DIR}/assets" "${CMAKE_CURRENT_BINARY_DIR}/assets")

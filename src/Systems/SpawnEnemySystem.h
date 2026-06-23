@@ -8,7 +8,7 @@
 
 
 inline void SpawnEnemy(const flecs::iter &it) {
-    const auto assetManager = it.world().get_mut<AssetManager>();
+    const auto assetManager = &it.world().get_mut<AssetManager>();
     const auto enemyTexture = assetManager->GetTexture("enemy");
     const auto enemyBulletTexture = assetManager->GetTexture("enemy-bullet");
     const auto enemyYPos = RandomRange(0, WINDOW_HEIGHT - enemyTexture->height);

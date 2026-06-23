@@ -7,8 +7,8 @@
 
 
 inline void PlayerControlSystem(const flecs::world &ecsWorld) {
-    auto assetManager = ecsWorld.get_mut<AssetManager>();
-    auto audioManager = ecsWorld.get_mut<AudioManager>();
+    auto assetManager = &ecsWorld.get_mut<AssetManager>();
+    auto audioManager = &ecsWorld.get_mut<AudioManager>();
     ecsWorld.system<Player, const Position, const Sprite, Velocity>()
             .each([&ecsWorld, assetManager, audioManager](const flecs::iter &it, size_t, Player &p, const Position &pos,
                                                           const Sprite &spr, Velocity &v) {
