@@ -3,6 +3,8 @@
 
 #include <flecs.h>
 
+// ReSharper disable CppDFAUnreadVariable
+// ReSharper disable CppDFAUnusedValue
 inline void EnemyFiringSystem(const flecs::world &ecsWorld) {
     const auto query = ecsWorld.query<const Position, const Player>();
     auto assetManager = &ecsWorld.get_mut<AssetManager>();

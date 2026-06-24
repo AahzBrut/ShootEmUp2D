@@ -7,7 +7,7 @@
 
 inline void SpawnPlayer(const flecs::world &ecsWorld, AssetManager &assetManager) {
     const auto playerSprite = assetManager.GetTexture("player");
-    // ReSharper disable once CppExpressionWithoutSideEffects
+
     ecsWorld.entity()
             .insert([&](Position &p, Velocity &v, Sprite &s, Player &pl, Collider &collider) {
                 p = {100, 100};

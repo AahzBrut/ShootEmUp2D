@@ -15,18 +15,17 @@ inline void SpawnDebris(const flecs::world &ecsWorld, const flecs::entity entity
     const auto sprite = entity.get<Sprite>().sprite;
     const auto width = sprite->width / DEBRIS_NUM_SLICES;
     const auto height = sprite->height / DEBRIS_NUM_SLICES;
-    const auto velocity = entity.get<Velocity>();
+    const auto [velocityX, velocityY] = entity.get<Velocity>();
     for (auto x = 0; x < width * DEBRIS_NUM_SLICES; x += width) {
         for (auto y = 0; y < height * DEBRIS_NUM_SLICES; y += height) {
-            // ReSharper disable once CppExpressionWithoutSideEffects
             ecsWorld
                     .entity()
                     .insert([&](Debris &debris) {
                         debris = {
                             {collider.x + toFloat(x), collider.y + toFloat(y)},
                             {
-                                velocity.x + RandomRange(-30, 30),
-                                velocity.y + RandomRange(-100, 100)
+                                velocityX + RandomRange(-30, 30),
+                                velocityY + RandomRange(-100, 100)
                             },
                             Rectangle(toFloat(x), toFloat(y), toFloat(width - 1), toFloat(height - 1)),
                             0.f,
@@ -40,7 +39,6 @@ inline void SpawnDebris(const flecs::world &ecsWorld, const flecs::entity entity
 }
 
 inline void SpawnPointsPickup(const flecs::world &ecsWorld, AssetManager *assetManager, const Collider &collider) {
-    // ReSharper disable once CppExpressionWithoutSideEffects
     ecsWorld
             .entity()
             .insert([&](Position &position, Velocity &velocity, Collider &coll, Sprite &sprite, PointsPickup &pointsPickup) {
@@ -52,6 +50,8 @@ inline void SpawnPointsPickup(const flecs::world &ecsWorld, AssetManager *assetM
             });
 }
 
+// ReSharper disable CppDFAUnreadVariable
+// ReSharper disable CppDFAUnusedValue
 inline void CollisionDetectionSystem(const flecs::world &ecsWorld) {
     const auto query = ecsWorld.query<const Collider>();
     const auto playerQuery = ecsWorld.query<Player>();
@@ -80,7 +80,6 @@ inline void CollisionDetectionSystem(const flecs::world &ecsWorld) {
                                     }
                                 }
 
-                                // ReSharper disable once CppExpressionWithoutSideEffects
                                 ecsWorld
                                         .entity()
                                         .insert([&](Explode &explode) {

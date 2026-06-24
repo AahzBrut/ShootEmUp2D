@@ -15,8 +15,8 @@ void Application::Initialize() const {
 
     RegisterComponents(ecsWorld);
 
-    ecsWorld.set(AssetManager{});
-    ecsWorld.set(AudioManager{});
+    ecsWorld.emplace<AssetManager>();
+    ecsWorld.emplace<AudioManager>();
     RegisterSystems(ecsWorld);
 }
 
