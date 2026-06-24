@@ -14,6 +14,7 @@ void Application::Initialize() const {
     SetTargetFPS(60);
 
     RegisterComponents(ecsWorld);
+
     ecsWorld.set(AssetManager{});
     ecsWorld.set(AudioManager{});
     RegisterSystems(ecsWorld);
@@ -28,9 +29,8 @@ void Application::Run() const {
 
         ecsWorld.progress(GetFrameTime());
 
-        char stringBuffer[16];
-        sprintf(&stringBuffer[0], "%d", GetFPS());
-        DrawText(stringBuffer, 10, 10, 32, WHITE);
+        const auto fpsString = std::to_string(GetFPS());
+        DrawText(fpsString.c_str(), 10, 10, 32, WHITE);
 
         EndDrawing();
     }

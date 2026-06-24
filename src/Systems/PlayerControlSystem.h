@@ -19,10 +19,10 @@ inline void PlayerControlSystem(const flecs::world &ecsWorld) {
                     if (p.fireDelay <= 0.f) p.fireDelay = 0.f;
                 }
 
-                if (IsKeyDown(KEY_W)) v.y = -p.speed;
-                if (IsKeyDown(KEY_D)) v.x = p.speed;
-                if (IsKeyDown(KEY_S)) v.y = p.speed;
-                if (IsKeyDown(KEY_A)) v.x = -p.speed;
+                if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) v.y = -p.speed;
+                if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) v.x = p.speed;
+                if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) v.y = p.speed;
+                if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) v.x = -p.speed;
 
                 if (IsKeyDown(KEY_SPACE)) {
                     if (p.fireDelay <= 0.0f) {
